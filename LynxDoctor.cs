@@ -10,7 +10,7 @@ namespace LynxDoctor
     public class LynxVolumeDoctor
     {
         // Universal
-        private int TipVolMax { get; set; }
+        public int TipVolMax { get; set; }
         private string InputTransferVolumeString { get; set; }
         private List<double> VolumeList { get; set; }
 
