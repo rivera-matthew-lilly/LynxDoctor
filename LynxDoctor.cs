@@ -10,7 +10,7 @@ namespace LynxDoctor
     public class LynxVolumeDoctor
     {
         // Universal
-        private double TipVolMax;
+        private int TipVolMax { get; set; }
         private string InputTransferVolumeString { get; set; }
         private List<double> VolumeList { get; set; }
 
@@ -38,11 +38,10 @@ namespace LynxDoctor
 
 
         // CONSTRUCTOR
-        public LynxVolumeDoctor(string inputVolList, double tipVolMax, string plateType)
+        public LynxVolumeDoctor(string inputVolList, string plateType)
         {
             // Universal
             InputTransferVolumeString = inputVolList;
-            TipVolMax = tipVolMax;
             VolumeList = FormatLynxVolume.ExtractVolList(inputVolList);
             PlateType = plateType;
 
