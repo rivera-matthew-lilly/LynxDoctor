@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LynxDoctor
@@ -148,7 +149,7 @@ namespace LynxDoctor
         //////////// START: MIXING STRING CREATION /////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public void setMixingCycle()
+        public void SetMixingCycle()
         {
             double maxVol = VolumeList.Max();
             if (maxVol > TipVolMax) { MixCount = UPPER_MIX_COUNT; }
@@ -171,7 +172,7 @@ namespace LynxDoctor
 
         public String MixingDoctorDriver()
         {
-            setMixingCycle(); // call 'get MixCount' in main to control mix count
+            SetMixingCycle(); // call 'get MixCount' in main to control mix count
             CreateMixVolList();
             MixVolumeString = "";
             MixVolumeString = FormatLynxVolume.ConvertListToVolString(InputTransferVolumeString, MixVolumeList);
@@ -186,14 +187,31 @@ namespace LynxDoctor
         //////////// START: MAX VOLUME VALIDATION //////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public void addNewPlate(string plateName, double maxVolume)
+        public void AddNewPlate(string plateName, double maxVolume)
         {
             if (!plateName.Equals("") && maxVolume > 0) { PlateDictionary.Add(plateName, maxVolume); }
         }
 
-        public void removePlate(string plateName)
+        public void RemovePlate(string plateName)
         {
             if (!plateName.Equals("")) { PlateDictionary.Remove(plateName); }
+        }
+
+        public int GetTipVolume(string tipType) {
+            int firstHyphenIndex = tipType.IndexOf('-');
+            if (firstHyphenIndex != -1) {
+                int secondHyphenIndex = tipType.IndexOf('-', firstHyphenIndex + 1);
+                if (secondHyphenIndex != -1) {
+                    string pattern = @"\d+";
+                    string input = tipType.Substring(secondHyphenIndex + 1);
+                    Match match = Regex.Match(input, pattern);
+                    if (match.Success && int.TryParse(match.Value, out int intValue)) { 
+                        return intValue; 
+                    }
+                    return -1;
+                }
+            }
+            return -1;
         }
 
         public bool ValidMaxVolDoctorDriver()
