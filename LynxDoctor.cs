@@ -85,7 +85,8 @@ namespace LynxDoctor
                 double currentVol = Convert.ToDouble(VolumeList[i]);
                 if (currentVol <= TipVolMax) { volSplitCount_Temp = 0; }
                 else { volSplitCount_Temp = (int)(currentVol / TipVolMax); }
-                if (volSplitCount_Temp == 1) { volSplitCount_Temp++; }
+
+                if (volSplitCount_Temp >= 1 && currentVol%TipVolMax !=0) { volSplitCount_Temp++; }
                 VolumeFragmentsNeededList.Add(volSplitCount_Temp);
             }
 
